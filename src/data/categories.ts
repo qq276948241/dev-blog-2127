@@ -1,0 +1,58 @@
+import type { Category } from '../types';
+
+export const categories: Category[] = [
+  {
+    id: '1',
+    name: '前端开发',
+    slug: 'frontend',
+    icon: 'Layout',
+    description: 'React、Vue、TypeScript 等前端技术实战',
+    count: 5,
+    color: '#6366f1',
+  },
+  {
+    id: '2',
+    name: '后端开发',
+    slug: 'backend',
+    icon: 'Server',
+    description: 'Node.js、Python、Go 服务端开发经验',
+    count: 3,
+    color: '#22d3ee',
+  },
+  {
+    id: '3',
+    name: '数据库',
+    slug: 'database',
+    icon: 'Database',
+    description: 'MySQL、PostgreSQL、MongoDB 数据库调优',
+    count: 2,
+    color: '#a855f7',
+  },
+  {
+    id: '4',
+    name: 'DevOps',
+    slug: 'devops',
+    icon: 'Container',
+    description: 'Docker、Kubernetes、CI/CD 自动化部署',
+    count: 2,
+    color: '#f59e0b',
+  },
+  {
+    id: '5',
+    name: '算法与数据结构',
+    slug: 'algorithm',
+    icon: 'Binary',
+    description: 'LeetCode 刷题心得与算法模板总结',
+    count: 2,
+    color: '#10b981',
+  },
+  {
+    id: '6',
+    name: '工具与效率',
+    slug: 'tools',
+    icon: 'Wrench',
+    description: '开发工具、IDE 配置、效率提升技巧',
+    count: 1,
+    color: '#f43f5e',
+  },
+];

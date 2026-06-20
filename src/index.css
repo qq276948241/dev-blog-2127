@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-sans antialiased min-h-screen;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(34, 211, 238, 0.08), transparent);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    @apply bg-accent-primary/40 text-text-primary;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-bg-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full border-2 border-bg-secondary hover:bg-border-highlight transition-colors;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-bg-secondary/60 backdrop-blur-xl border border-border-subtle rounded-2xl;
+  }
+
+  .glass-card-hover {
+    @apply transition-all duration-300 hover:bg-bg-tertiary/80 hover:border-accent-primary/30 hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent-primary via-accent-tertiary to-accent-secondary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent-primary text-white font-medium
+           transition-all duration-300 hover:bg-accent-primary/90 hover:shadow-glow hover:-translate-y-0.5
+           active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-accent-primary/50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-bg-tertiary border border-border text-text-primary font-medium
+           transition-all duration-300 hover:bg-bg-hover hover:border-accent-primary/40 hover:text-accent-secondary
+           active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-accent-primary/30;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all duration-200;
+  }
+
+  .chip-outline {
+    @apply chip border border-border text-text-secondary hover:border-accent-primary/50 hover:text-accent-primary hover:bg-accent-primary/5;
+  }
+
+  .chip-active {
+    @apply chip bg-accent-primary/15 border border-accent-primary/40 text-accent-secondary shadow-glow/20;
+  }
+
+  .section-title {
+    @apply font-display text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3;
+  }
+
+  .section-title::before {
+    content: '';
+    @apply w-1.5 h-8 rounded-full bg-gradient-to-b from-accent-primary to-accent-secondary;
+  }
+
+  .input-base {
+    @apply w-full px-4 py-2.5 bg-bg-tertiary border border-border rounded-xl text-text-primary placeholder-text-tertiary
+           focus:outline-none focus:border-accent-primary/60 focus:ring-2 focus:ring-accent-primary/20
+           transition-all duration-200;
+  }
+
+  .link-underline {
+    @apply relative inline-block;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-gradient-to-r from-accent-primary to-accent-secondary transition-all duration-300;
+  }
+
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  .prose-custom {
+    @apply text-text-primary leading-relaxed;
+  }
+
+  .prose-custom h1 {
+    @apply font-display text-3xl md:text-4xl font-bold mt-10 mb-6 pb-4 border-b border-border-subtle;
+  }
+
+  .prose-custom h2 {
+    @apply font-display text-2xl md:text-3xl font-bold mt-10 mb-5 flex items-center gap-3;
+  }
+
+  .prose-custom h2::before {
+    content: '#';
+    @apply text-accent-primary font-mono text-xl;
+  }
+
+  .prose-custom h3 {
+    @apply font-display text-xl md:text-2xl font-semibold mt-8 mb-4 text-text-primary;
+  }
+
+  .prose-custom h4 {
+    @apply font-display text-lg font-semibold mt-6 mb-3 text-text-primary;
+  }
+
+  .prose-custom p {
+    @apply my-5 text-text-secondary leading-7;
+  }
+
+  .prose-custom a {
+    @apply text-accent-secondary underline decoration-accent-secondary/30 underline-offset-2 hover:decoration-accent-secondary transition-all;
+  }
+
+  .prose-custom ul {
+    @apply my-5 ml-6 space-y-2 text-text-secondary;
+  }
+
+  .prose-custom ul li {
+    @apply relative pl-2;
+  }
+
+  .prose-custom ul li::marker {
+    @apply text-accent-primary;
+  }
+
+  .prose-custom ol {
+    @apply my-5 ml-6 space-y-2 text-text-secondary list-decimal;
+  }
+
+  .prose-custom ol li::marker {
+    @apply text-accent-primary font-mono;
+  }
+
+  .prose-custom blockquote {
+    @apply my-6 pl-5 py-4 border-l-4 border-accent-primary/60 bg-accent-primary/5 rounded-r-xl text-text-secondary italic;
+  }
+
+  .prose-custom hr {
+    @apply my-10 border-border-subtle;
+  }
+
+  .prose-custom img {
+    @apply rounded-xl border border-border-subtle my-8 shadow-card;
+  }
+
+  .prose-custom table {
+    @apply w-full my-8 rounded-xl overflow-hidden border border-border-subtle;
+  }
+
+  .prose-custom thead {
+    @apply bg-bg-tertiary;
+  }
+
+  .prose-custom th {
+    @apply px-4 py-3 text-left font-semibold text-text-primary border-b border-border;
+  }
+
+  .prose-custom td {
+    @apply px-4 py-3 border-b border-border-subtle text-text-secondary;
+  }
+
+  .prose-custom tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .prose-custom code:not(pre code) {
+    @apply bg-bg-tertiary text-accent-secondary px-1.5 py-0.5 rounded-md font-mono text-sm border border-border-subtle;
+  }
+
+  .prose-custom pre {
+    @apply my-6 rounded-xl overflow-hidden border border-border-subtle bg-bg-tertiary/80 shadow-card;
+  }
+
+  .prose-custom pre code {
+    @apply !bg-transparent !p-0 !border-0 font-mono text-sm;
+  }
+}
+
+@layer utilities {
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  .mask-fade-r {
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  }
+
+  .noise-overlay {
+    position: relative;
+  }
+
+  .noise-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+  }
+}
