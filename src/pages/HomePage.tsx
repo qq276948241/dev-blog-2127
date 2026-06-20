@@ -12,6 +12,7 @@ import {
   Braces,
 } from 'lucide-react';
 import { useBlogStore } from '../store/useBlogStore';
+import { useFilteredArticles } from '../hooks/useFilteredArticles';
 import { useTypewriter } from '../hooks/useTypewriter';
 import ArticleCard from '../components/article/ArticleCard';
 import FilterBar from '../components/article/FilterBar';
@@ -20,8 +21,8 @@ import Pagination from '../components/article/Pagination';
 const PAGE_SIZE = 6;
 
 export default function HomePage() {
-  const { profile, getFilteredArticles, articles } = useBlogStore();
-  const filtered = getFilteredArticles();
+  const { profile, articles } = useBlogStore();
+  const { filtered } = useFilteredArticles();
   const typed = useTypewriter(profile.signature, 90, 800);
   const [searchParams, setSearchParams] = useSearchParams();
   const urlPage = parseInt(searchParams.get('page') || '1', 10);

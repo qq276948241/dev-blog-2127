@@ -7,21 +7,26 @@ import {
   TrendingUp,
   Layers,
 } from 'lucide-react';
-import { useBlogStore } from '../../store/useBlogStore';
+import { useFilteredArticles } from '../../hooks/useFilteredArticles';
 import type { SortOrder } from '../../types';
 
 export default function FilterBar() {
-  const { filter, setCategory, toggleTag, setSort, resetFilter, categories, tags } =
-    useBlogStore();
+  const {
+    filter,
+    categories,
+    activeCategory,
+    activeTagList,
+    hasFilter,
+    setCategory,
+    toggleTag,
+    setSort,
+    resetFilter,
+  } = useFilteredArticles();
 
   const sortOptions: { value: SortOrder; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { value: 'latest', label: '最新发布', icon: Clock },
     { value: 'popular', label: '最多阅读', icon: TrendingUp },
   ];
-
-  const activeTagList = tags.filter((t) => filter.tags.includes(t.slug));
-  const activeCategory = categories.find((c) => c.slug === filter.category);
-  const hasFilter = filter.category || filter.tags.length > 0 || filter.sort !== 'latest';
 
   return (
     <div className="glass-card p-5 mb-8">
@@ -63,7 +68,6 @@ export default function FilterBar() {
       </div>
 
       <div className="space-y-4">
-        {/* Category Pills */}
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs text-text-tertiary flex items-center gap-1 mr-1">
             <Layers className="w-3.5 h-3.5" />
@@ -92,7 +96,6 @@ export default function FilterBar() {
           ))}
         </div>
 
-        {/* Active Tags */}
         {(filter.tags.length > 0 || activeCategory) && (
           <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-border-subtle">
             <span className="text-xs text-text-tertiary">当前筛选：</span>
