@@ -14,10 +14,12 @@ import { formatDate } from '../utils/date';
 
 function highlight(text: string, keyword: string) {
   if (!keyword.trim()) return text;
-  const regex = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-  const parts = text.split(regex);
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const splitRegex = new RegExp(`(${escaped})`, 'gi');
+  const parts = text.split(splitRegex);
+  const matchRegex = new RegExp(escaped, 'i');
   return parts.map((part, idx) =>
-    regex.test(part) ? (
+    part && matchRegex.test(part) ? (
       <mark
         key={idx}
         className="bg-accent-warm/25 text-accent-warm px-0.5 rounded font-medium"

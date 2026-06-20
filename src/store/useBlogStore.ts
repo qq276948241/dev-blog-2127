@@ -24,6 +24,43 @@ interface BlogState {
   incrementViews: (id: string) => void;
 }
 
+const VISITED_KEY = 'blog_visited_articles';
+const VIEW_COOLDOWN_MS = 30 * 60 * 1000;
+
+function getVisitedMap(): Record<string, number> {
+  try {
+    const raw = localStorage.getItem(VISITED_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function setVisitedMap(map: Record<string, number>) {
+  try {
+    localStorage.setItem(VISITED_KEY, JSON.stringify(map));
+  } catch {
+    // ignore
+  }
+}
+
+function shouldCountView(id: string): boolean {
+  const now = Date.now();
+  const visited = getVisitedMap();
+  const lastVisit = visited[id];
+  if (lastVisit && now - lastVisit < VIEW_COOLDOWN_MS) {
+    return false;
+  }
+  visited[id] = now;
+  Object.keys(visited).forEach((k) => {
+    if (now - visited[k] > VIEW_COOLDOWN_MS) {
+      delete visited[k];
+    }
+  });
+  setVisitedMap(visited);
+  return true;
+}
+
 export const useBlogStore = create<BlogState>((set, get) => ({
   articles: mockArticles,
   categories: mockCategories,
@@ -111,10 +148,12 @@ export const useBlogStore = create<BlogState>((set, get) => ({
       .slice(0, limit)
       .map((x) => x.article);
   },
-  incrementViews: (id) =>
+  incrementViews: (id) => {
+    if (!shouldCountView(id)) return;
     set((state) => ({
       articles: state.articles.map((a) =>
         a.id === id ? { ...a, views: a.views + 1 } : a,
       ),
-    })),
+    }));
+  },
 }));
