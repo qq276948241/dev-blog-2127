@@ -73,7 +73,8 @@
   }
 
   .chip-active {
-    @apply chip bg-accent-primary/15 border border-accent-primary/40 text-accent-secondary shadow-glow/20;
+    @apply chip bg-accent-primary/15 border border-accent-primary/40 text-accent-secondary;
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.2);
   }
 
   .section-title {

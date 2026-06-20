@@ -56,8 +56,11 @@ export default {
       },
       boxShadow: {
         glow: '0 0 20px rgba(99, 102, 241, 0.3)',
+        'glow/20': '0 0 16px rgba(99, 102, 241, 0.2)',
+        'glow/30': '0 0 20px rgba(99, 102, 241, 0.3)',
         'glow-lg': '0 0 40px rgba(99, 102, 241, 0.4)',
         'glow-cyan': '0 0 20px rgba(34, 211, 238, 0.3)',
+        'glow-cyan/20': '0 0 16px rgba(34, 211, 238, 0.2)',
         card: '0 4px 24px -4px rgba(0, 0, 0, 0.5)',
         'card-hover': '0 12px 40px -8px rgba(99, 102, 241, 0.25)',
       },
