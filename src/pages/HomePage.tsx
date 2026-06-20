@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
   Sparkles,
   BookOpen,
@@ -14,11 +15,40 @@ import { useBlogStore } from '../store/useBlogStore';
 import { useTypewriter } from '../hooks/useTypewriter';
 import ArticleCard from '../components/article/ArticleCard';
 import FilterBar from '../components/article/FilterBar';
+import Pagination from '../components/article/Pagination';
+
+const PAGE_SIZE = 6;
 
 export default function HomePage() {
   const { profile, getFilteredArticles, articles } = useBlogStore();
   const filtered = getFilteredArticles();
   const typed = useTypewriter(profile.signature, 90, 800);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlPage = parseInt(searchParams.get('page') || '1', 10);
+  const [currentPage, setCurrentPage] = useState(Math.max(1, Math.min(urlPage, Math.ceil(filtered.length / PAGE_SIZE) || 1)));
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setSearchParams({ page: '1' }, { replace: true });
+  }, [filtered.length, setSearchParams]);
+
+  useEffect(() => {
+    const pageFromUrl = Math.max(1, Math.min(urlPage, Math.ceil(filtered.length / PAGE_SIZE) || 1));
+    if (pageFromUrl !== currentPage) {
+      setCurrentPage(pageFromUrl);
+    }
+  }, [urlPage, filtered.length, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setSearchParams({ page: page.toString() }, { replace: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const endIndex = startIndex + PAGE_SIZE;
+  const pageArticles = filtered.slice(startIndex, endIndex);
 
   return (
     <div className="space-y-10 animate-fade-in-up">
@@ -182,11 +212,20 @@ export default function HomePage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filtered.map((article, idx) => (
-              <ArticleCard key={article.id} article={article} index={idx} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {pageArticles.map((article, idx) => (
+                <ArticleCard key={article.id} article={article} index={idx} />
+              ))}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={filtered.length}
+              pageSize={PAGE_SIZE}
+              onPageChange={handlePageChange}
+            />
+          </>
         )}
       </section>
     </div>
